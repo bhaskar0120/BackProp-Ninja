@@ -1,3 +1,4 @@
+import math
 class Node:
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
         self.grad = float()
@@ -24,6 +25,8 @@ class Node:
         return Multiplicative(value=self.value*b.value,functional=True,left_child=self,right_child=b)
     def __truediv__(self,b):
         return Divisive(value=self.value/b.value,functional=True,left_child=self,right_child=b)
+    def __pow__(self,b):
+        return Exponential(value=self.value**b.value,functional=True,left_child=self,right_child=b)
     def __str__(self):
         return "(%s %s %s)"%(self.left_child.__str__(), self.symbol, self.right_child.__str__())
 
@@ -64,15 +67,14 @@ class Divisive(Node):
     def right_derivative(self):
         return self.left_child.value/(self.right_child.value)**2
 
-#TODO
-# class Exponential(Node):
-#     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
-#         Node.__init__(self,value,functional,left_child,right_child)
-#         self.symbol = '**'
-#     def left_derivative(self):
-#         return 1
-#     def right_derivative(self):
-#         return 1
+class Exponential(Node):
+    def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
+        Node.__init__(self,value,functional,left_child,right_child)
+        self.symbol = '**'
+    def left_derivative(self):
+        return self.right_child.value*self.left_child.value**(self.right_child.value-1)
+    def right_derivative(self):
+        return math.log(self.left_child.value)*self.left_child.value**self.right_child.value
 
 class Number(Node):
     def __init__(self,value):

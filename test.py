@@ -6,7 +6,8 @@ if __name__ == "__main__":
         b = Number(3)
         c = Number(5)
         d = Number(6)
-        i = Number(10)
+        g = Number(10)
+        i = Number(12)
         print("Test 1 Passed: ",a,b)
     except Exception as E:
         print("Test 1 Failed",E)
@@ -19,13 +20,12 @@ if __name__ == "__main__":
 
     try:
         f = c + d
-        g = e * f
-        print("Test 3 Passed: ",g)
+        print("Test 3 Passed: ",f)
     except Exception as E:
         print("Test 3 Failed",E)
 
     try:
-        h = g / i - f * e
+        h = e / i - f * g
         print("Test 4 Passed: ",a,b)
     except Exception as E:
         print("Test 4 Failed",E)
@@ -42,3 +42,9 @@ if __name__ == "__main__":
     except Exception as E:
         print("Test 6 Failed",E)
 
+    try:
+        h = a**b
+        h.backward()
+        print("Test 7 Passed: ",a.grad,b.grad)
+    except Exception as E:
+        print("Test 7 Failed",E)
