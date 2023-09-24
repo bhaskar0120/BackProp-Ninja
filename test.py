@@ -51,7 +51,13 @@ if __name__ == "__main__":
 
     try:
         k = h.copy()
-        k.right_child.grad = 0
-        print("Test 8 Passed: ",h.right_child.grad,k.right_child.grad)
+        k.right_child.value = 0
+        print("Test 8 Passed: ",h.right_child.value,k.right_child.value)
     except Exception as E:
         print("Test 8 Failed",E)
+
+    try:
+        k.calculate()
+        print("Test 9 Passed: ",k.right_child.value)
+    except Exception as E:
+        print("Test 9 Failed",E)
