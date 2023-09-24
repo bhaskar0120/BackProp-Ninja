@@ -48,3 +48,10 @@ if __name__ == "__main__":
         print("Test 7 Passed: ",a.grad,b.grad)
     except Exception as E:
         print("Test 7 Failed",E)
+
+    try:
+        k = h.copy()
+        k.right_child.grad = 0
+        print("Test 8 Passed: ",h.right_child.grad,k.right_child.grad)
+    except Exception as E:
+        print("Test 8 Failed",E)

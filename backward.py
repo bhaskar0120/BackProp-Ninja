@@ -39,6 +39,8 @@ class Additive(Node):
         return 1.0
     def right_derivative(self):
         return 1.0
+    def copy(self):
+        return Additive(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
 
 class Subtractive(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -48,6 +50,8 @@ class Subtractive(Node):
         return 1.0
     def right_derivative(self):
         return -1.0
+    def copy(self):
+        return Subtractive(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
 
 class Multiplicative(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -57,6 +61,8 @@ class Multiplicative(Node):
         return self.right_child.value
     def right_derivative(self):
         return self.left_child.value
+    def copy(self):
+        return Multiplicative(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
 
 class Divisive(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -66,6 +72,8 @@ class Divisive(Node):
         return 1/self.right_child.value
     def right_derivative(self):
         return self.left_child.value/(self.right_child.value)**2
+    def copy(self):
+        return Divisive(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
 
 class Exponential(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -75,6 +83,8 @@ class Exponential(Node):
         return self.right_child.value*self.left_child.value**(self.right_child.value-1)
     def right_derivative(self):
         return math.log(self.left_child.value)*self.left_child.value**self.right_child.value
+    def copy(self):
+        return Exponential(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
 
 class Number(Node):
     def __init__(self,value):
@@ -82,6 +92,8 @@ class Number(Node):
         self.value = value
     def __str__(self):
         return "%f"%self.value
+    def copy(self):
+        return Number(value=self.value)
 
 
 
