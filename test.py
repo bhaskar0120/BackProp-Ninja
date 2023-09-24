@@ -58,6 +58,6 @@ if __name__ == "__main__":
 
     try:
         k.calculate()
-        print("Test 9 Passed: ",k.right_child.value)
+        print("Test 9 Passed: ",k)
     except Exception as E:
         print("Test 9 Failed",E)
