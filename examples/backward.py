@@ -17,6 +17,7 @@ class Node:
             self.left_child.backward(factor=factor*self.left_derivative())
             self.right_child.backward(factor=factor*self.right_derivative())
 
+
     def __add__(self,b):
         return Additive(value=self.value+b.value,functional=True,left_child=self,right_child=b)
     def __sub__(self,b):
@@ -41,6 +42,10 @@ class Additive(Node):
         return 1.0
     def copy(self):
         return Additive(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
+    def calculate(self):
+        self.right_child.calculate()
+        self.left_child.calculate()
+        self.value = self.left_child.value+self.right_child.value
 
 class Subtractive(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -52,6 +57,10 @@ class Subtractive(Node):
         return -1.0
     def copy(self):
         return Subtractive(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
+    def calculate(self):
+        self.right_child.calculate()
+        self.left_child.calculate()
+        self.value = self.left_child.value-self.right_child.value
 
 class Multiplicative(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -63,17 +72,25 @@ class Multiplicative(Node):
         return self.left_child.value
     def copy(self):
         return Multiplicative(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
+    def calculate(self):
+        self.right_child.calculate()
+        self.left_child.calculate()
+        self.value = self.left_child.value*self.right_child.value
 
 class Divisive(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
         Node.__init__(self,value,functional,left_child,right_child)
         self.symbol = '/'
     def left_derivative(self):
-        return 1/self.right_child.value
+        return 1/self.right_child.value if self.right_child.value != 0.0 else math.inf
     def right_derivative(self):
-        return self.left_child.value/(self.right_child.value)**2
+        return self.left_child.value/(self.right_child.value)**2 if self.right_child.value != 0.0 else math.copysign(math.inf,self.left_child.value)
     def copy(self):
         return Divisive(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
+    def calculate(self):
+        self.right_child.calculate()
+        self.left_child.calculate()
+        self.value = self.left_child.value/self.right_child.value if self.right_child.value != 0.0 else math.copysign(math.inf,self.left_child.value)
 
 class Exponential(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -82,9 +99,13 @@ class Exponential(Node):
     def left_derivative(self):
         return self.right_child.value*self.left_child.value**(self.right_child.value-1)
     def right_derivative(self):
-        return math.log(self.left_child.value)*self.left_child.value**self.right_child.value
+        return math.log(self.left_child.value)*self.left_child.value**self.right_child.value if self.left_child.value > 0 else -math.inf
     def copy(self):
         return Exponential(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
+    def calculate(self):
+        self.right_child.calculate()
+        self.left_child.calculate()
+        self.value = self.left_child.value**self.right_child.value
 
 class Number(Node):
     def __init__(self,value):
@@ -94,3 +115,5 @@ class Number(Node):
         return "%f"%self.value
     def copy(self):
         return Number(value=self.value)
+    def calculate(self):
+        return;
