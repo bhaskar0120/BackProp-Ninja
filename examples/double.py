@@ -16,7 +16,6 @@ def main():
     for _ in range(1000):
         for i in range(len(train_x)):
             E = (train_y[i] - m*train_x[i] - b)**Number(2)
-            E.calculate()
             print(E.value)
             E.backward()
             m.value -= learningRate*m.grad
