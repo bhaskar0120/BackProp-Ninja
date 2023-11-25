@@ -1,7 +1,6 @@
 def main():
     from backward import Number
-    from random import random, seed
-    seed(1203)
+    from random import random
 
 
     train_x = [Number(2),Number(3),Number(6),Number(7)]
@@ -12,18 +11,16 @@ def main():
     m = Number(random())
     b = Number(random())
 
-    # for i in E = E + (train_y - m*train_x-b)**2
 
-    E = Number(0)
-    for i in range(len(train_x)):
-        E = E + (train_y[i] - m*train_x[i] + b)**Number(2)
-
-    for i in range(1000):
-        E.calculate()
-        print(E.value)
-        E.backward()
-        m.value -= 0.001*m.grad
-        b.value -= 0.001*b.grad
+    learningRate = 0.01
+    for _ in range(1000):
+        for i in range(len(train_x)):
+            E = (train_y[i] - m*train_x[i] - b)**Number(2)
+            E.calculate()
+            print(E.value)
+            E.backward()
+            m.value -= learningRate*m.grad
+            b.value -= learningRate*b.grad
     print(m,b)
 
 
