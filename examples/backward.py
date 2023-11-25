@@ -84,7 +84,7 @@ class Divisive(Node):
     def left_derivative(self):
         return 1/self.right_child.value if self.right_child.value != 0.0 else math.inf
     def right_derivative(self):
-        return self.left_child.value/(self.right_child.value)**2 if self.right_child.value != 0.0 else math.copysign(math.inf,self.left_child.value)
+        return -self.left_child.value/(self.right_child.value)**2 if self.right_child.value != 0.0 else -math.copysign(math.inf,self.left_child.value)
     def copy(self):
         return Divisive(value=self.value,functional=True,left_child=self.left_child.copy(),right_child=self.right_child.copy())
     def calculate(self):
