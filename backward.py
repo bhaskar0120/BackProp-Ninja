@@ -45,7 +45,7 @@ class Additive(Node):
     def calculate(self):
         self.right_child.calculate()
         self.left_child.calculate()
-        self.value = self.left_child.value+self.right_child.value
+        self.value += self.left_child.value+self.right_child.value
 
 class Subtractive(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -60,7 +60,7 @@ class Subtractive(Node):
     def calculate(self):
         self.right_child.calculate()
         self.left_child.calculate()
-        self.value = self.left_child.value-self.right_child.value
+        self.value += self.left_child.value-self.right_child.value
 
 class Multiplicative(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -75,7 +75,7 @@ class Multiplicative(Node):
     def calculate(self):
         self.right_child.calculate()
         self.left_child.calculate()
-        self.value = self.left_child.value*self.right_child.value
+        self.value += self.left_child.value*self.right_child.value
 
 class Divisive(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -90,7 +90,7 @@ class Divisive(Node):
     def calculate(self):
         self.right_child.calculate()
         self.left_child.calculate()
-        self.value = self.left_child.value/self.right_child.value if self.right_child.value != 0.0 else math.copysign(math.inf,self.left_child.value)
+        self.value += self.left_child.value/self.right_child.value if self.right_child.value != 0.0 else math.copysign(math.inf,self.left_child.value)
 
 class Exponential(Node):
     def __init__(self,value=float(),functional=False,left_child=None,right_child=None):
@@ -105,12 +105,12 @@ class Exponential(Node):
     def calculate(self):
         self.right_child.calculate()
         self.left_child.calculate()
-        self.value = self.left_child.value**self.right_child.value
+        self.value += self.left_child.value**self.right_child.value
 
 class Number(Node):
     def __init__(self,value):
         Node.__init__(self)
-        self.value = value
+        self.value += value
     def __str__(self):
         return "%f"%self.value
     def copy(self):
