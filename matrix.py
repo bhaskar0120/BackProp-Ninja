@@ -1,9 +1,26 @@
 from backward import Number
+
 class Matrix:
-    def __init__(self,n,m):
-        self.n = n
-        self.m = m
-        self.mat = [Number(0) for i in range(n*m)]
+    @staticmethod
+    def Numberify(mat):
+        x = []
+        for i in range(len(mat)):
+            for j in range(len(mat[i])):
+                if(type(mat[i][j]) == Number):
+                    continue
+                x.append(Number(mat[i][j]))
+        return x
+
+
+    def __init__(self,n=0,m=0,mat = None):
+        if type(mat) == list:
+            self.mat = Matrix.Numberify(mat)
+            self.n = len(mat)
+            self.m = len(mat[0])
+        else:
+            self.n = n
+            self.m = m
+            self.mat = [Number(0) for i in range(n*m)]
 
     def __add__(self,b):
         if not (self.n == b.n and self.m == b.m):

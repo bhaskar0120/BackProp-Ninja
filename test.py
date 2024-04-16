@@ -120,4 +120,10 @@ if __name__ == "__main__":
     except Exception as E:
         print("Test 15 Failed",E)
 
+    try:
+        mat1 = Matrix(mat=[[1,2,3],[4,5,6],[7,8,9]]) 
+        print("Test 16 Passed: ",mat1)
+    except Exception as E:
+        print("Test 16 Failed",E)
+        
         
